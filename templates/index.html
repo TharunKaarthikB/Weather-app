@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon2.ico') }}">
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            transition: 0.5s;
+        }
+
+        .default {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+        }
+
+        .sunny {
+            background: linear-gradient(to right, #fceabb, #f8b500);
+        }
+
+        .cloudy {
+            background: linear-gradient(to right, #bdc3c7, #2c3e50);
+        }
+
+        .rainy {
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        input {
+            padding: 12px;
+            width: 220px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #fff;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .card {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            display: inline-block;
+            animation: fadeIn 1s ease-in;
+            width: 300px;
+        }
+
+        .details {
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .details p {
+            margin: 5px 0;
+        }
+
+        img {
+            width: 100px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body class="{{ bg_class }}">
+
+<h1>🌦️ Weather App</h1>
+
+<form method="POST">
+    <input type="text" name="city" placeholder="Enter city" required>
+    <button type="submit">Check</button>
+</form>
+
+{% if weather %}
+<div class="card">
+    
+    {% if weather.error %}
+        <p>{{ weather.error }}</p>
+
+    {% else %}
+
+        <h2>{{ weather.city }}</h2>
+
+        <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png">
+
+        <p style="font-size: 22px;">🌡️ {{ weather.temp }} °C</p>
+        <p>🤒 Feels like: {{ weather.feels }} °C</p>
+        <p>☁️ {{ weather.desc }}</p>
+
+        <div class="details">
+            <p>💧 Humidity: {{ weather.humidity }}%</p>
+            <p>🌬️ Wind: {{ weather.wind }} m/s</p>
+            <p>📊 Pressure: {{ weather.pressure }} hPa</p>
+            <p>👁️ Visibility: {{ weather.visibility }} km</p>
+            <p>🌅 Sunrise: {{ weather.sunrise }}</p>
+            <p>🌇 Sunset: {{ weather.sunset }}</p>
+        </div>
+
+    {% endif %}
+
+</div>
+{% endif %}
+
+</body>
+</html>
